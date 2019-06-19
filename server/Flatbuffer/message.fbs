@@ -1,0 +1,66 @@
+namespace NetworkedPhysics;
+
+enum InputType : byte { NONE = 0, Forward = 1, Backward = 2, Leftward = 3, Rightward = 4 }
+enum EntityType: byte { NONE = 0, Cube = 1, Sphere = 2 }
+
+union MessageType {
+    MessageAck,
+    ClientConnectMessage,
+    ClientDisconnectMessage,
+    ClientInputMessage,
+    ServerSnapshotMessage,
+    ResetSimulationMessage,
+    KeepAliveMessage
+}
+
+table Message {
+    id:int;
+    data:MessageType;
+}
+
+table MessageAck {
+    messageId:int;
+}
+
+table ClientConnectMessage {}
+table ClientDisconnectMessage {}
+table ResetSimulationMessage {}
+table KeepAliveMessage {}
+
+table ClientInputMessage {
+    type:InputType;
+}
+
+table ServerSnapshotMessage {
+    entities:[Entity];
+}
+
+table Entity {
+    id:int;
+    type:EntityType;
+    interacting:bool;
+    transform:Transform;
+}
+
+table Transform {
+    position:Vec3;
+    rotation:Vec4;
+    scale:Vec3;
+}
+
+table Vec3 {
+    x:float;
+    y:float;
+    z:float;
+}
+
+table Vec4 {
+    x:float;
+    y:float;
+    z:float;
+    w:float;
+}
+
+
+
+root_type Message;
